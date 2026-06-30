@@ -51,17 +51,27 @@ async function reviewCode(filePath, fileContent) {
 		],
 	});
 
+	const rawText = message.content[0].text.trim();
+
 	try {
-		// Parse Claude's output as JSON
-		return JSON.parse(message.content[0].text.trim());
+		// Clean out markdown code blocks (e.g., ```json ... ```) if Claude included them
+		const sanitizedText = rawText
+			.replace(/^```json\s*/i, "") // Removes leading ```json
+			.replace(/^```\s*/, "") // Removes leading ``` if plain
+			.replace(/```$/, "") // Removes trailing ```
+			.trim();
+
+		// Parse the cleaned JSON string
+		return JSON.parse(sanitizedText);
 	} catch (e) {
-		console.error(
-			"Failed to parse Claude's response as JSON. Raw output:",
-			message.content[0].text,
-		);
+		console.error("Failed to parse Claude's response as JSON.");
+		console.error("Raw output from model was:", rawText);
+
+		// Switch fallback to BLOCK if parsing fails, so broken responses don't bypass your security gate!
 		return {
-			assessment: "PASSED",
-			summary: "Could not parse AI review details.",
+			assessment: "BLOCK",
+			summary:
+				"⚠️ AI Code Review system encountered a formatting exception while analyzing this file. Check the CI action terminal logs.",
 			issues: [],
 		};
 	}
