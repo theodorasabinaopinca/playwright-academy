@@ -108,7 +108,7 @@ async function postReviewComment(prNumber, reviewText) {
 		pull_number: prNumber,
 		commit_id: commitId,
 		event: "COMMENT",
-		body: `## 🤖 AI Quality Gate System Scan\n\n${fullText}\n\n---\n*Powered by Claude API*`,
+		body: `## 🤖 AI Quality Gate System Scan\n\n${reviewText}\n\n---\n*Powered by Claude API*`,
 	});
 
 	await octokit.rest.issues.createComment({
