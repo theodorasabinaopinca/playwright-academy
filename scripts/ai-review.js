@@ -74,7 +74,7 @@ async function reviewCode(filePath, fileContent) {
 	console.log(`Reviewing ${filePath}...`);
 
 	const message = await anthropic.messages.create({
-		model: "claude-3-5-sonnet-latest",
+		model: "claude-sonnet-4-6",
 		max_tokens: 3000,
 		messages: [
 			{
