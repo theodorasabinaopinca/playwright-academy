@@ -2,7 +2,10 @@
   "name": "playwright-academy",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {},
+  "type": "module",
+  "scripts": {
+    "ai-review": "node scripts/ai-review.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
