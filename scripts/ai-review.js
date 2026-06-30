@@ -88,6 +88,29 @@ async function reviewCode(filePath, fileContent) {
 }
 
 async function postReviewComment(prNumber, reviewText) {
+	const owner = process.env.REPO_OWNER;
+	const repo = process.env.REPO_NAME;
+
+	// 1. Get the latest commit SHA from the Pull Request to attach comments to
+	const { data: pr } = await octokit.rest.pulls.get({
+		owner,
+		repo,
+		pull_number: prNumber,
+	});
+	const commitId = pr.head.sha;
+
+	// 2. Parse out individual line issues if you want true inline reviews.
+	// Since parsing raw text accurately can sometimes skip issues, the safest, most
+	// bulletproof method for CI gates is creating a single, formal Pull Request Review
+	await octokit.rest.pulls.createReview({
+		owner,
+		repo,
+		pull_number: prNumber,
+		commit_id: commitId,
+		event: "COMMENT",
+		body: `## 🤖 AI Quality Gate System Scan\n\n${fullText}\n\n---\n*Powered by Claude API*`,
+	});
+
 	await octokit.rest.issues.createComment({
 		owner: process.env.REPO_OWNER,
 		repo: process.env.REPO_NAME,
