@@ -32,19 +32,29 @@ console.log("Build reusable functions to create and validate test user data\n");
 
 // TODO: Create function to build a user object
 // Returns: User object with all properties
-function createUser(username, email, role, active) {}
+function createUser(username, email, role, active) {
+	const user = {
+		username: username,
+		email: email,
+		role: role,
+		active: active,
+	};
+	return user;
+}
 
 // TODO: Create function to validate email
 // Returns: true if email contains both '@' and '.', false otherwise
 function isValidEmail(email) {
 	// Use .includes() and && operator
-}
+	return email.includes("@") && email.includes(".");
+} 
 
 // TODO: Create function to generate default password
 // Returns: password string in format: "{username}@Test123"
 // Example: "admin" → "admin@Test123"
 function generateDefaultPassword(username) {
 	// Use template literal
+	return `${username}@Test123`;
 }
 
 // Test Challenge 1
@@ -123,18 +133,24 @@ const testUsers = [
 // TODO: Create function to get only active users
 // Returns: array of user objects where active is true
 // Use .filter() method
-function getActiveUsers(users) {}
+function getActiveUsers(users) {
+	return users.filter(user => user.active);
+}
 
 // TODO: Create function to extract usernames
 // Returns: array of strings (just the usernames)
 // Use .map() method
-function extractUsernames(users) {}
+function extractUsernames(users) {
+	return users.map(user => user.username);
+}
 
 // TODO: Create function to find user by role
 // Parameters: users (array), role (string)
 // Returns: User object or undefined
 // Use .find() method
-function findUserByRole(users, role) {}
+function findUserByRole(users, role) {
+	return users.find(user => user.role === role);
+}
 
 // Test Challenge 2
 console.log("Testing getActiveUsers:");
