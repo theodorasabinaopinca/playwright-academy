@@ -136,7 +136,7 @@ const testUsers = [
 // Use .filter() method
 
 function getActiveUsers(users) {
-	const activeUsers = testUsers.filter((user) => user.active);
+	const activeUsers = testUsers.filter((user) => (user.active == true));
 	return activeUsers;
 }
 
