@@ -11,6 +11,8 @@
  * Replace each TODO comment with working JavaScript code.
  */
 
+const test = require("node:test");
+
 console.log("=== SESSION 2: HOME PRACTICE CHALLENGES ===\n");
 
 // ============================================
@@ -32,28 +34,39 @@ console.log("Build reusable functions to create and validate test user data\n");
 
 // TODO: Create function to build a user object
 // Returns: User object with all properties
-function createUser(username, email, role, active) {}
+function createUser(username, email, role, active) {
+  return {
+    username: username,
+    email: email,
+    role: role,
+    active: active,
+  };
+}
 
 // TODO: Create function to validate email
 // Returns: true if email contains both '@' and '.', false otherwise
 function isValidEmail(email) {
-	// Use .includes() and && operator
+  // Use .includes() and && operator
+  if (email.includes("@") && email.includes(".")) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 // TODO: Create function to generate default password
 // Returns: password string in format: "{username}@Test123"
 // Example: "admin" → "admin@Test123"
 function generateDefaultPassword(username) {
-	// Use template literal
+  // Use template literal
+  return `${username}@Test123`
 }
 
 // Test Challenge 1
 console.log("Testing createUser:");
 const testUser = createUser("admin", "admin@test.com", "administrator", true);
 console.log(
-	testUser.username === "admin" && testUser.email === "admin@test.com"
-		? "✅ PASS"
-		: "❌ FAIL",
+  testUser.username === "admin" && testUser.email === "admin@test.com" ? "✅ PASS" : "❌ FAIL",
 );
 
 console.log("Testing isValidEmail:");
@@ -61,9 +74,7 @@ console.log(isValidEmail("test@example.com") === true ? "✅ PASS" : "❌ FAIL")
 console.log(isValidEmail("invalid-email") === false ? "✅ PASS" : "❌ FAIL");
 
 console.log("Testing generateDefaultPassword:");
-console.log(
-	generateDefaultPassword("admin") === "admin@Test123" ? "✅ PASS" : "❌ FAIL",
-);
+console.log(generateDefaultPassword("admin") === "admin@Test123" ? "✅ PASS" : "❌ FAIL");
 console.log("");
 
 // ============================================
@@ -88,53 +99,63 @@ console.log("Filter, transform, and find users in your test data set\n");
 
 // Test data set - DO NOT MODIFY
 const testUsers = [
-	{
-		username: "admin",
-		email: "admin@qa.com",
-		role: "admin",
-		active: true,
-	},
-	{
-		username: "tester1",
-		email: "tester1@qa.com",
-		role: "tester",
-		active: true,
-	},
-	{
-		username: "olduser",
-		email: "invalid-email",
-		role: "tester",
-		active: false,
-	},
-	{
-		username: "manager",
-		email: "manager@qa.com",
-		role: "manager",
-		active: true,
-	},
-	{
-		username: "tester2",
-		email: "tester2@qa.com",
-		role: "tester",
-		active: true,
-	},
+  {
+    username: "admin",
+    email: "admin@qa.com",
+    role: "admin",
+    active: true,
+  },
+  {
+    username: "tester1",
+    email: "tester1@qa.com",
+    role: "tester",
+    active: true,
+  },
+  {
+    username: "olduser",
+    email: "invalid-email",
+    role: "tester",
+    active: false,
+  },
+  {
+    username: "manager",
+    email: "manager@qa.com",
+    role: "manager",
+    active: true,
+  },
+  {
+    username: "tester2",
+    email: "tester2@qa.com",
+    role: "tester",
+    active: true,
+  },
 ];
 
 // TODO: Create function to get only active users
 // Returns: array of user objects where active is true
 // Use .filter() method
-function getActiveUsers(users) {}
+
+function getActiveUsers(users) {
+	const activeUsers = testUsers.filter((user) => user.active);
+	return activeUsers;
+}
 
 // TODO: Create function to extract usernames
 // Returns: array of strings (just the usernames)
 // Use .map() method
-function extractUsernames(users) {}
+function extractUsernames(users) {
+	const usernames = testUsers.map((user) => user.username)
+	return usernames;
+}
 
 // TODO: Create function to find user by role
 // Parameters: users (array), role (string)
 // Returns: User object or undefined
 // Use .find() method
-function findUserByRole(users, role) {}
+function findUserByRole(users, role) {
+	const user = testUsers.find((user) => user.role === role);
+	return user;
+}
 
 // Test Challenge 2
 console.log("Testing getActiveUsers:");
@@ -143,15 +164,11 @@ console.log(activeUsers.length === 4 ? "✅ PASS" : "❌ FAIL");
 
 console.log("Testing extractUsernames:");
 const usernames = extractUsernames(testUsers);
-console.log(
-	usernames.length === 5 && usernames[0] === "admin" ? "✅ PASS" : "❌ FAIL",
-);
+console.log(usernames.length === 5 && usernames[0] === "admin" ? "✅ PASS" : "❌ FAIL");
 
 console.log("Testing findUserByRole:");
 const adminUser = findUserByRole(testUsers, "admin");
-console.log(
-	adminUser && adminUser.username === "admin" ? "✅ PASS" : "❌ FAIL",
-);
+console.log(adminUser && adminUser.username === "admin" ? "✅ PASS" : "❌ FAIL");
 
 // ============================================
 // SUCCESS!
