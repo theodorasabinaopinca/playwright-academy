@@ -47,11 +47,7 @@ function createUser(username, email, role, active) {
 // Returns: true if email contains both '@' and '.', false otherwise
 function isValidEmail(email) {
   // Use .includes() and && operator
-  if (email.includes("@") && email.includes(".")) {
-    return true;
-  } else {
-    return false;
-  }
+  return (email.includes("@") && email.includes("."))
 }
 
 // TODO: Create function to generate default password
@@ -136,16 +132,14 @@ const testUsers = [
 // Use .filter() method
 
 function getActiveUsers(users) {
-	const activeUsers = testUsers.filter((user) => (user.active == true));
-	return activeUsers;
+	return testUsers.filter((user) => (user.active == true));
 }
 
 // TODO: Create function to extract usernames
 // Returns: array of strings (just the usernames)
 // Use .map() method
 function extractUsernames(users) {
-	const usernames = testUsers.map((user) => user.username)
-	return usernames;
+	return testUsers.map((user) => user.username);
 }
 
 // TODO: Create function to find user by role
@@ -153,8 +147,7 @@ function extractUsernames(users) {
 // Returns: User object or undefined
 // Use .find() method
 function findUserByRole(users, role) {
-	const user = testUsers.find((user) => user.role === role);
-	return user;
+	return testUsers.find((user) => user.role === role);
 }
 
 // Test Challenge 2
