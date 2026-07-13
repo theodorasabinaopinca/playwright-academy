@@ -35,6 +35,6 @@ test("test generics", async ({ page }) => {
 		await page.getByRole("link", { name: "Get started" }).click();
 	}
 
-	clickGetStartedButton();
+	await clickGetStartedButton();
 	await expect(page.getByRole("heading", { name: "Installation" })).toBeVisible();
 });
