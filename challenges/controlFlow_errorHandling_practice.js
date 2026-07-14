@@ -14,7 +14,9 @@ console.log("=== HOME PRACTICE CHALLENGES ===\n");
 // CHALLENGE 1: Test Configuration & Environment Setup
 // ============================================
 console.log("--- CHALLENGE 1: Test Configuration & Environment Setup ---");
-console.log("Use conditionals to configure tests based on browser, environment, and requirements\n");
+console.log(
+  "Use conditionals to configure tests based on browser, environment, and requirements\n",
+);
 
 /**
  * SCENARIO:
@@ -38,7 +40,7 @@ console.log("Use conditionals to configure tests based on browser, environment, 
 //   default → 30000 (default timeout for unknown types)
 // Use if/else statements
 function getTestTimeout(testType) {
-	// Use if/else chain to check testType and return appropriate timeout
+  // Use if/else chain to check testType and return appropriate timeout
 }
 
 // TODO: Create function to get environment URL
@@ -51,7 +53,7 @@ function getTestTimeout(testType) {
 //   default → 'http://localhost:3000'
 // Use switch statement
 function getEnvironmentUrl(environment) {
-	// Use switch statement with cases for each environment
+  // Use switch statement with cases for each environment
 }
 
 // Test Challenge 1
@@ -62,10 +64,24 @@ console.log(getTestTimeout("unit") === 5000 ? "✅ PASS" : "❌ FAIL");
 console.log(getTestTimeout("unknown") === 30000 ? "✅ PASS" : "❌ FAIL");
 
 console.log("Testing getEnvironmentUrl:");
-console.log(getEnvironmentUrl("local") === "http://localhost:3000" ? "✅ PASS" : "❌ FAIL");
-console.log(getEnvironmentUrl("dev") === "https://dev.myapp.com" ? "✅ PASS" : "❌ FAIL");
-console.log(getEnvironmentUrl("staging") === "https://staging.myapp.com" ? "✅ PASS" : "❌ FAIL");
-console.log(getEnvironmentUrl("production") === "https://myapp.com" ? "✅ PASS" : "❌ FAIL");
+console.log(
+  getEnvironmentUrl("local") === "http://localhost:3000"
+    ? "✅ PASS"
+    : "❌ FAIL",
+);
+console.log(
+  getEnvironmentUrl("dev") === "https://dev.myapp.com" ? "✅ PASS" : "❌ FAIL",
+);
+console.log(
+  getEnvironmentUrl("staging") === "https://staging.myapp.com"
+    ? "✅ PASS"
+    : "❌ FAIL",
+);
+console.log(
+  getEnvironmentUrl("production") === "https://myapp.com"
+    ? "✅ PASS"
+    : "❌ FAIL",
+);
 
 console.log("");
 
@@ -90,26 +106,44 @@ console.log("--- CHALLENGE 2: Test Suite Executor ---");
 
 // Test data set - DO NOT MODIFY
 const testCases = [
-	{ name: "Login Test", status: "passed", priority: "critical", active: true },
-	{ name: "Signup Test", status: "failed", priority: "high", active: true },
-	{ name: "Profile Test", status: "skipped", priority: "medium", active: false },
-	{ name: "Checkout Test", status: "passed", priority: "critical", active: true },
-	{ name: "Search Test", status: "passed", priority: "low", active: true },
-	{ name: "Filter Test", status: "failed", priority: "high", active: true },
+  { name: "Login Test", status: "passed", priority: "critical", active: true },
+  { name: "Signup Test", status: "failed", priority: "high", active: true },
+  {
+    name: "Profile Test",
+    status: "skipped",
+    priority: "medium",
+    active: false,
+  },
+  {
+    name: "Checkout Test",
+    status: "passed",
+    priority: "critical",
+    active: true,
+  },
+  { name: "Search Test", status: "passed", priority: "low", active: true },
+  { name: "Filter Test", status: "failed", priority: "high", active: true },
 ];
 
 // TODO: Create function to log active test names
 // Parameter: tests (array)
 // Returns: nothing (just console.log)
 function logActiveTests(tests) {
-	// Use for...of loop and if statement to check active property
+  // Use for...of loop and if statement to check active property
+  const testsNumber = testCases.filter((test) => test.active).length;
+  console.log(`Number of active tests: ${testsNumber}`);
+
+  for (const test of tests) {
+    if (test.active) {
+      console.log(test.name);
+    }
+  }
 }
 
 // TODO: Create function to find first failed test
 // Parameter: tests (array)
 // Returns: test object or undefined
 function findFirstFailedTest(tests) {
-	// Use for...of loop with break statement
+  // Use for...of loop with break statement
 }
 
 // TODO: Create function to count test results
@@ -117,18 +151,18 @@ function findFirstFailedTest(tests) {
 // Returns: object with { passed: number, failed: number, skipped: number }
 // Use for...of loop with counters
 function countTestResults(tests) {
-	// Initialize counters: let passed = 0, failed = 0, skipped = 0
-	// Loop through tests, increment appropriate counter based on status
-	// Return object with counts
+  // Initialize counters: let passed = 0, failed = 0, skipped = 0
+  // Loop through tests, increment appropriate counter based on status
+  // Return object with counts
 }
 
 // TODO: Create function to get critical test names
 // Parameter: tests (array)
 // Returns: array of test names (strings) where priority is 'critical'
 function getCriticalTestNames(tests) {
-	// Create empty array
-	// Use forEach and push to build array
-	// Return array
+  // Create empty array
+  // Use forEach and push to build array
+  // Return array
 }
 
 // Test Challenge 2
@@ -139,18 +173,26 @@ logActiveTests(testCases);
 
 console.log("\nTesting findFirstFailedTest:");
 const firstFailed = findFirstFailedTest(testCases);
-console.log(firstFailed && firstFailed.name === "Signup Test" ? "PASS" : "FAIL");
+console.log(
+  firstFailed && firstFailed.name === "Signup Test" ? "PASS" : "FAIL",
+);
 
 console.log("Testing countTestResults:");
 const counts = countTestResults(testCases);
-console.log(counts.passed === 3 && counts.failed === 2 && counts.skipped === 1 ? "PASS" : "FAIL");
+console.log(
+  counts.passed === 3 && counts.failed === 2 && counts.skipped === 1
+    ? "PASS"
+    : "FAIL",
+);
 
 console.log("Testing getCriticalTestNames:");
 const criticalNames = getCriticalTestNames(testCases);
 console.log(
-	criticalNames.length === 2 && criticalNames.includes("Login Test") && criticalNames.includes("Checkout Test")
-		? "PASS"
-		: "FAIL"
+  criticalNames.length === 2 &&
+    criticalNames.includes("Login Test") &&
+    criticalNames.includes("Checkout Test")
+    ? "PASS"
+    : "FAIL",
 );
 console.log("");
 
@@ -178,11 +220,11 @@ console.log("Use while loops and control flow\n");
 // Returns: number (the total count reached)
 // Use while loop to count from 1 to numberOfRuns
 function countTestRuns(testName, numberOfRuns) {
-	// Initialize: let count = 0
-	// While loop: while (count < numberOfRuns)
-	//   Increment count (count++)
-	//   Log: "Running test: {testName} - Run #{count}"
-	// Return count
+  // Initialize: let count = 0
+  // While loop: while (count < numberOfRuns)
+  //   Increment count (count++)
+  //   Log: "Running test: {testName} - Run #{count}"
+  // Return count
 }
 
 // TODO: Create function to run only active tests (skip disabled ones)
@@ -190,12 +232,12 @@ function countTestRuns(testName, numberOfRuns) {
 // Returns: number of tests executed (excluding inactive ones)
 // Use for...of loop with continue statement to skip inactive tests
 function executeOnlyActiveTests(tests) {
-	// Initialize: let executed = 0
-	// For loop: for (const test of tests)
-	//   If test.active === false, use continue (skip this test)
-	//   Increment executed
-	//   Log: "Executed: {test.name}"
-	// Return executed
+  // Initialize: let executed = 0
+  // For loop: for (const test of tests)
+  //   If test.active === false, use continue (skip this test)
+  //   Increment executed
+  //   Log: "Executed: {test.name}"
+  // Return executed
 }
 
 // TODO: Create function to stop suite on first critical failure
@@ -204,14 +246,14 @@ function executeOnlyActiveTests(tests) {
 // Use for...of loop with break statement
 // Real-world: Some CI/CD pipelines stop on critical test failures to save resources
 function stopOnCriticalFailure(tests) {
-	// Initialize: let executedCount = 0, let stopped = false, let failedTest = null
-	// For loop: for (const test of tests)
-	//   Increment executedCount
-	//   If test.status === 'failed' AND test.priority === 'critical':
-	//     Set stopped = true, failedTest = test.name
-	//     Log: "Critical test failed: {test.name}. Stopping suite."
-	//     Use break to exit loop
-	// Return { stopped, executedCount, failedTest }
+  // Initialize: let executedCount = 0, let stopped = false, let failedTest = null
+  // For loop: for (const test of tests)
+  //   Increment executedCount
+  //   If test.status === 'failed' AND test.priority === 'critical':
+  //     Set stopped = true, failedTest = test.name
+  //     Log: "Critical test failed: {test.name}. Stopping suite."
+  //     Use break to exit loop
+  // Return { stopped, executedCount, failedTest }
 }
 
 // Test Challenge 3
@@ -224,35 +266,41 @@ console.log(runCount2 === 5 ? "✅ PASS" : "❌ FAIL");
 
 console.log("Testing executeOnlyActiveTests:");
 const testsToRun = [
-	{ name: "Test 1", active: true },
-	{ name: "Test 2", active: false },
-	{ name: "Test 3", active: true },
-	{ name: "Test 4", active: false },
-	{ name: "Test 5", active: true },
+  { name: "Test 1", active: true },
+  { name: "Test 2", active: false },
+  { name: "Test 3", active: true },
+  { name: "Test 4", active: false },
+  { name: "Test 5", active: true },
 ];
 const executedCount = executeOnlyActiveTests(testsToRun);
 console.log(executedCount === 3 ? "✅ PASS" : "❌ FAIL");
 
 console.log("Testing stopOnCriticalFailure:");
 const criticalTests = [
-	{ name: "Test 1", status: "passed", priority: "high" },
-	{ name: "Test 2", status: "failed", priority: "critical" },
-	{ name: "Test 3", status: "passed", priority: "low" },
+  { name: "Test 1", status: "passed", priority: "high" },
+  { name: "Test 2", status: "failed", priority: "critical" },
+  { name: "Test 3", status: "passed", priority: "low" },
 ];
 const stopResult = stopOnCriticalFailure(criticalTests);
 console.log(
-	stopResult.stopped === true && stopResult.executedCount === 2 && stopResult.failedTest === "Test 2"
-		? "✅ PASS"
-		: "❌ FAIL"
+  stopResult.stopped === true &&
+    stopResult.executedCount === 2 &&
+    stopResult.failedTest === "Test 2"
+    ? "✅ PASS"
+    : "❌ FAIL",
 );
 
 const noCriticalTests = [
-	{ name: "Test A", status: "passed", priority: "high" },
-	{ name: "Test B", status: "failed", priority: "medium" },
-	{ name: "Test C", status: "passed", priority: "low" },
+  { name: "Test A", status: "passed", priority: "high" },
+  { name: "Test B", status: "failed", priority: "medium" },
+  { name: "Test C", status: "passed", priority: "low" },
 ];
 const noStopResult = stopOnCriticalFailure(noCriticalTests);
-console.log(noStopResult.stopped === false && noStopResult.executedCount === 3 ? "✅ PASS" : "❌ FAIL");
+console.log(
+  noStopResult.stopped === false && noStopResult.executedCount === 3
+    ? "✅ PASS"
+    : "❌ FAIL",
+);
 console.log("");
 
 // ============================================
@@ -284,67 +332,89 @@ function validateTestData(testData) {}
 // Test Challenge 4
 console.log("Testing safeExecuteTest:");
 const successTest = () => {
-	return true;
+  return true;
 };
 const failTest = () => {
-	throw new Error("Test assertion failed");
+  throw new Error("Test assertion failed");
 };
 
 const result1 = safeExecuteTest(successTest, "Success Test");
-console.log(result1.status === "passed" && result1.error === null ? "PASS" : "FAIL");
+console.log(
+  result1.status === "passed" && result1.error === null ? "PASS" : "FAIL",
+);
 
 const result2 = safeExecuteTest(failTest, "Fail Test");
-console.log(result2.status === "failed" && result2.error === "Test assertion failed" ? "PASS" : "FAIL");
+console.log(
+  result2.status === "failed" && result2.error === "Test assertion failed"
+    ? "PASS"
+    : "FAIL",
+);
 
 console.log("Testing validateTestData:");
 try {
-	validateTestData({ name: "Test 1", steps: ["step1"] });
-	console.log("PASS");
+  validateTestData({ name: "Test 1", steps: ["step1"] });
+  console.log("PASS");
 } catch (error) {
-	console.log("FAIL");
+  console.log("FAIL");
 }
 
 try {
-	validateTestData({ name: "", steps: [] });
-	console.log("L FAIL - Should have thrown error");
+  validateTestData({ name: "", steps: [] });
+  console.log("L FAIL - Should have thrown error");
 } catch (error) {
-	console.log(error.message === "Test name is required" ? "PASS" : "FAIL");
+  console.log(error.message === "Test name is required" ? "PASS" : "FAIL");
 }
 
 console.log("Testing executeWithCleanup:");
 const cleanupResult1 = executeWithCleanup({
-	name: "Valid Test",
-	steps: ["step1"],
+  name: "Valid Test",
+  steps: ["step1"],
 });
-console.log(cleanupResult1.validated === true && cleanupResult1.cleaned === true ? "PASS" : "FAIL");
+console.log(
+  cleanupResult1.validated === true && cleanupResult1.cleaned === true
+    ? "PASS"
+    : "FAIL",
+);
 
 const cleanupResult2 = executeWithCleanup({ name: "", steps: [] });
-console.log(cleanupResult2.validated === false && cleanupResult2.cleaned === true ? "PASS" : "FAIL");
+console.log(
+  cleanupResult2.validated === false && cleanupResult2.cleaned === true
+    ? "PASS"
+    : "FAIL",
+);
 
 console.log("Testing executeTestSuite:");
 const testSuite = [
-	{ name: "Test 1", testFn: () => true },
-	{
-		name: "Test 2",
-		testFn: () => {
-			throw new Error("Assertion failed");
-		},
-	},
-	{ name: "Test 3", testFn: () => true },
-	{
-		name: "Test 4",
-		testFn: () => {
-			throw new Error("Element not found");
-		},
-	},
+  { name: "Test 1", testFn: () => true },
+  {
+    name: "Test 2",
+    testFn: () => {
+      throw new Error("Assertion failed");
+    },
+  },
+  { name: "Test 3", testFn: () => true },
+  {
+    name: "Test 4",
+    testFn: () => {
+      throw new Error("Element not found");
+    },
+  },
 ];
 
 const suiteResult = executeTestSuite(testSuite);
-console.log(suiteResult.passed === 2 && suiteResult.failed === 2 && suiteResult.errors.length === 2 ? "PASS" : "FAIL");
+console.log(
+  suiteResult.passed === 2 &&
+    suiteResult.failed === 2 &&
+    suiteResult.errors.length === 2
+    ? "PASS"
+    : "FAIL",
+);
 console.log("");
 
 // ============================================
 // SUCCESS!
 // ============================================
 console.log("=== ALL CHALLENGES COMPLETED ===");
-console.log("Next step: Run your Playwright tests and apply these concepts to real browser automation!");
+console.log(
+  "Next step: Run your Playwright tests and apply these concepts to real browser automation!",
+);
