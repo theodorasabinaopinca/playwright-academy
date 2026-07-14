@@ -41,13 +41,13 @@ console.log(add(5, 3));
 
 // Array methods
 
-const users = [
+const usersDemo = [
 	{ username: "admin", active: true },
 	{ username: "tester", active: true },
 ];
 
 // filter array method
-const activeUsers = users.filter((user) => user.active);
+const activeUsers = usersDemo.filter((user) => user.active);
 console.log(activeUsers);
 
 //syntax

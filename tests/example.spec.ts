@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { GooglePage, LoginPage } from "../demos/demo_06";
 
 test("has title", async ({ page }) => {
 	await page.goto("https://playwright.dev/");
@@ -37,4 +38,15 @@ test("test generics", async ({ page }) => {
 
 	await clickGetStartedButton();
 	await expect(page.getByRole("heading", { name: "Installation" })).toBeVisible();
+});
+
+test("test classes", async ({ page }) => {
+	await page.goto("https://playwright.dev/");
+
+	const loginPage = new LoginPage(page);
+	console.log(loginPage.usernameField);
+
+	const googlePage = new GooglePage(page);
+	await googlePage.navigate();
+	await expect(page).toHaveTitle(/Google/);
 });
