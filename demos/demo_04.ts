@@ -4,7 +4,7 @@ let age: number = 25;
 
 // Array
 let usernames = ["alice", "bob", "charlie"];
-let browsers: Array<string> = ["Chromium", "Firefox"];
+let browsers1: Array<string> = ["Chromium", "Firefox"];
 
 // Functions
 function add(a: number, b: number): number {
@@ -23,12 +23,12 @@ let user: { name: string; age: number } = {
 
 //Array objects
 
-let users: { name: string; age: number }[] = [
+let usersArray: { name: string; age: number }[] = [
 	{ name: "Alice", age: 25 },
 	{ name: "ben", age: 30 },
 ];
 
-//users.push({ name: "David", age: "30" });
+//usersArray.push({ name: "David", age: "30" });
 
 //Optional prop
 
