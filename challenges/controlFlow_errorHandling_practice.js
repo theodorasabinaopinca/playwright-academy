@@ -39,6 +39,15 @@ console.log("Use conditionals to configure tests based on browser, environment, 
 // Use if/else statements
 function getTestTimeout(testType) {
 	// Use if/else chain to check testType and return appropriate timeout
+	if (testType === "e2e") {
+		return 60000;
+	} else if (testType === "api") {
+		return 10000;
+	} else if (testType === "unit") {
+		return 5000;
+	} else {
+		return 30000; // default timeout
+	}
 }
 
 // TODO: Create function to get environment URL
@@ -52,6 +61,18 @@ function getTestTimeout(testType) {
 // Use switch statement
 function getEnvironmentUrl(environment) {
 	// Use switch statement with cases for each environment
+	switch (environment) {
+		case "local":
+			return "http://localhost:3000";
+		case "dev":
+			return "https://dev.myapp.com";
+		case "staging":
+			return "https://staging.myapp.com";
+		case "production":
+			return "https://myapp.com";
+		default:
+			return "http://localhost:3000";
+	}
 }
 
 // Test Challenge 1
@@ -103,6 +124,11 @@ const testCases = [
 // Returns: nothing (just console.log)
 function logActiveTests(tests) {
 	// Use for...of loop and if statement to check active property
+	for (const test of tests) {
+		if (test.active) {
+			console.log(test.name);
+		}
+	}
 }
 
 // TODO: Create function to find first failed test
@@ -110,6 +136,12 @@ function logActiveTests(tests) {
 // Returns: test object or undefined
 function findFirstFailedTest(tests) {
 	// Use for...of loop with break statement
+	for (const test of tests) {
+		if (test.status === "failed") {
+			return test;
+		}
+	}
+	return undefined;
 }
 
 // TODO: Create function to count test results
@@ -118,8 +150,21 @@ function findFirstFailedTest(tests) {
 // Use for...of loop with counters
 function countTestResults(tests) {
 	// Initialize counters: let passed = 0, failed = 0, skipped = 0
+	let passed = 0;
+	let failed = 0;
+	let skipped = 0;
 	// Loop through tests, increment appropriate counter based on status
+	for (const test of tests) {
+		if (test.status === "passed") {
+			passed++;
+		} else if (test.status === "failed") {
+			failed++;
+		} else if (test.status === "skipped") {
+			skipped++;
+		}
+	}
 	// Return object with counts
+	return { passed, failed, skipped };
 }
 
 // TODO: Create function to get critical test names
@@ -127,8 +172,15 @@ function countTestResults(tests) {
 // Returns: array of test names (strings) where priority is 'critical'
 function getCriticalTestNames(tests) {
 	// Create empty array
+	const criticalTests = [];
 	// Use forEach and push to build array
+	tests.forEach(test => {
+		if (test.priority === "critical") {
+			criticalTests.push(test.name);
+		}
+	});
 	// Return array
+	return criticalTests;
 }
 
 // Test Challenge 2
@@ -179,10 +231,16 @@ console.log("Use while loops and control flow\n");
 // Use while loop to count from 1 to numberOfRuns
 function countTestRuns(testName, numberOfRuns) {
 	// Initialize: let count = 0
+	let count = 0;
 	// While loop: while (count < numberOfRuns)
 	//   Increment count (count++)
 	//   Log: "Running test: {testName} - Run #{count}"
 	// Return count
+	while (count < numberOfRuns) {
+		count++;
+		console.log(`Running test: ${testName} - Run #${count}`);
+	}
+	return count;
 }
 
 // TODO: Create function to run only active tests (skip disabled ones)
@@ -191,11 +249,20 @@ function countTestRuns(testName, numberOfRuns) {
 // Use for...of loop with continue statement to skip inactive tests
 function executeOnlyActiveTests(tests) {
 	// Initialize: let executed = 0
+	let executed = 0;
 	// For loop: for (const test of tests)
 	//   If test.active === false, use continue (skip this test)
 	//   Increment executed
 	//   Log: "Executed: {test.name}"
 	// Return executed
+	for (const test of tests) {
+		if (!test.active) {
+			continue; // Skip inactive tests
+		}
+		executed++;
+		console.log(`Executed: ${test.name}`);
+	}
+	return executed;
 }
 
 // TODO: Create function to stop suite on first critical failure
@@ -205,13 +272,21 @@ function executeOnlyActiveTests(tests) {
 // Real-world: Some CI/CD pipelines stop on critical test failures to save resources
 function stopOnCriticalFailure(tests) {
 	// Initialize: let executedCount = 0, let stopped = false, let failedTest = null
+	let executedCount = 0;
+	let stopped = false;
+	let failedTest = null;
 	// For loop: for (const test of tests)
-	//   Increment executedCount
-	//   If test.status === 'failed' AND test.priority === 'critical':
-	//     Set stopped = true, failedTest = test.name
-	//     Log: "Critical test failed: {test.name}. Stopping suite."
-	//     Use break to exit loop
+	for (const test of tests) {
+		executedCount++;
+		if (test.status === "failed" && test.priority === "critical") {
+			stopped = true;
+			failedTest = test.name;
+			console.log(`Critical test failed: ${test.name}. Stopping suite.`);
+			break;
+		}
+	}
 	// Return { stopped, executedCount, failedTest }
+	return { stopped, executedCount, failedTest };
 }
 
 // Test Challenge 3
@@ -279,7 +354,18 @@ console.log("Use try/catch/finally to handle errors gracefully\n");
 // - If no name: throw new Error('Test name is required')
 // - If no steps: throw new Error('Test steps are required')
 // - If steps is empty array: throw new Error('Test must have at least one step')
-function validateTestData(testData) {}
+function validateTestData(testData) {
+	if (!testData.name) {
+		throw new Error("Test name is required");
+	}
+	if (!testData.steps) {
+		throw new Error("Test steps are required");
+	}
+	if (Array.isArray(testData.steps) && testData.steps.length === 0) {
+		throw new Error("Test must have at least one step");
+	}
+	return true;
+}
 
 // Test Challenge 4
 console.log("Testing safeExecuteTest:");
