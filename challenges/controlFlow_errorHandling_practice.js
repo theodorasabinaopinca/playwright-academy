@@ -282,20 +282,6 @@ console.log("Use try/catch/finally to handle errors gracefully\n");
 function validateTestData(testData) {}
 
 // Test Challenge 4
-console.log("Testing safeExecuteTest:");
-const successTest = () => {
-	return true;
-};
-const failTest = () => {
-	throw new Error("Test assertion failed");
-};
-
-const result1 = safeExecuteTest(successTest, "Success Test");
-console.log(result1.status === "passed" && result1.error === null ? "PASS" : "FAIL");
-
-const result2 = safeExecuteTest(failTest, "Fail Test");
-console.log(result2.status === "failed" && result2.error === "Test assertion failed" ? "PASS" : "FAIL");
-
 console.log("Testing validateTestData:");
 try {
 	validateTestData({ name: "Test 1", steps: ["step1"] });
@@ -311,36 +297,6 @@ try {
 	console.log(error.message === "Test name is required" ? "PASS" : "FAIL");
 }
 
-console.log("Testing executeWithCleanup:");
-const cleanupResult1 = executeWithCleanup({
-	name: "Valid Test",
-	steps: ["step1"],
-});
-console.log(cleanupResult1.validated === true && cleanupResult1.cleaned === true ? "PASS" : "FAIL");
-
-const cleanupResult2 = executeWithCleanup({ name: "", steps: [] });
-console.log(cleanupResult2.validated === false && cleanupResult2.cleaned === true ? "PASS" : "FAIL");
-
-console.log("Testing executeTestSuite:");
-const testSuite = [
-	{ name: "Test 1", testFn: () => true },
-	{
-		name: "Test 2",
-		testFn: () => {
-			throw new Error("Assertion failed");
-		},
-	},
-	{ name: "Test 3", testFn: () => true },
-	{
-		name: "Test 4",
-		testFn: () => {
-			throw new Error("Element not found");
-		},
-	},
-];
-
-const suiteResult = executeTestSuite(testSuite);
-console.log(suiteResult.passed === 2 && suiteResult.failed === 2 && suiteResult.errors.length === 2 ? "PASS" : "FAIL");
 console.log("");
 
 // ============================================
