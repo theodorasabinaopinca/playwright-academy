@@ -1,7 +1,11 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, chromium } from "@playwright/test";
 import { GooglePage, LoginPage } from "../demos/demo_06";
 
-test("has title", async ({ page }) => {
+test("has title", async ({}) => {
+	const browser = await chromium.launch();
+	const context = await browser.newContext();
+	const page = await context.newPage();
+
 	await page.goto("https://playwright.dev/");
 
 	const title = await page.title();
@@ -49,4 +53,16 @@ test("test classes", async ({ page }) => {
 	const googlePage = new GooglePage(page);
 	await googlePage.navigate();
 	await expect(page).toHaveTitle(/Google/);
+});
+
+test("multiple fixtures", async ({ page, context, browser }) => {
+	await page.goto("https:/google.com");
+	console.log(`Page URL:  ${page.url()}`);
+
+	console.log("Browser type:", browser.browserType().name());
+
+	const page2 = await context.newPage();
+	await page2.goto("https:/example.com");
+
+	console.log("Context nr of pages: ", context.pages().length);
 });
