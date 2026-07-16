@@ -25,7 +25,7 @@
 
 // TODO: Add inline object type annotation
 // Should have: name (string), email (string), age (number), isActive (boolean)
-const testUser = {
+const testUser: { name: string; email: string; age: number; isActive: boolean } = {
 	name: "John Doe",
 	email: "john@test.com",
 	age: 30,
@@ -36,15 +36,17 @@ const testUser = {
 
 // TODO: Add parameter types and return type annotation
 // This function should accept two numbers and return a number
-// function calculateTimeout(baseTimeout, multiplier) {
-// 	return baseTimeout * multiplier;
-// }
+function calculateTimeout(baseTimeout: number, multiplier: number) {
+	let result: number;
+	result = baseTimeout * multiplier;
+	return result;
+}
 
 // ============= TODO: Create array of typed objects =============
 
 // TODO: Add type annotation for array of product objects
 // Each product should have: id (number), name (string), price (number), inStock (boolean)
-const products = [
+const products1: { id: number; name: string; price: number; inStock: boolean }[] = [
 	{ id: 1, name: "Laptop", price: 999.99, inStock: true },
 	{ id: 2, name: "Mouse", price: 29.99, inStock: true },
 	{ id: 3, name: "Keyboard", price: 79.99, inStock: false },
@@ -55,10 +57,12 @@ const products = [
 // TODO: Uncomment these lines ONE AT A TIME to see TypeScript errors
 // Then fix them or comment them back out
 
-// const wrongType: string = 123; // Type error!
-// browsers.push(42); // Type error!
-// testUser.age = "thirty"; // Type error!
-// const result: number = calculateTimeout("100", 2); // Type error!
+let browserss: Array<string> = ["11", "12", "13"];
+
+const wrongType: number = 123; // Type error!
+browserss.push("42"); // Type error!
+testUser.age = 30; // Type error!
+const result: number = calculateTimeout(100, 2); // Type error!
 
 /**
  * ================================================
@@ -92,6 +96,14 @@ const products = [
 // - role: string
 // - age?: number (optional)
 // - isActive: boolean
+interface User {
+	id: number;
+	username: string;
+	email: string;
+	role: string;
+	age?: number;
+	isActive: boolean;
+}
 
 // TODO: Create a Product interface with these properties:
 // - id: number
@@ -101,25 +113,51 @@ const products = [
 // - inStock: boolean
 // - description?: string (optional)
 
+interface Product {
+	id: number;
+	name: string;
+	price: number;
+	category: string;
+	inStock: boolean;
+	description?: string;
+}
+
 // ============= TODO: Create test data arrays =============
 
 // TODO: Create an array of at least 3 User objects
+let users: User[] = [
+	{ id: 1, username: "Ana", email: "ana@gmail.com", role: "admin", age: 30, isActive: true },
+	{ id: 2, username: "George", email: "george@gmail.com", role: "user", age: 31, isActive: true },
+	{ id: 2, username: "Mihaela", email: "mihaela@gmail.com", role: "user", isActive: false },
+];
 
 // TODO: Create an array of at least 4 Product objects
+let products: Product[] = [
+	{ id: 1, name: "Product name 1", price: 10, category: "Category 1", inStock: true, description: "Description" },
+	{ id: 2, name: "Product name 2", price: 11, category: "Category 2", inStock: false },
+	{ id: 3, name: "Product name 3", price: 12, category: "Category 3", inStock: true },
+	{ id: 4, name: "Product name 4", price: 13, category: "Category 2", inStock: true },
+];
 
 // ============= TODO: Create typed functions =============
 
 // TODO: Complete this function
 // Find user by username - returns User or undefined if not found
-// function findUserByUsername(users: User[], username: string): User | undefined { }
+function findUserByUsername(users: User[], username: string): User | undefined {
+	return users.find((user) => user.username === username);
+}
 
 // TODO: Complete this function
 // Get array of product names using map()
-// function getProductNames(products: Product[]): string[] { }
+function getProductNames(products: Product[]): string[] {
+	return products.map((product) => product.name);
+}
 
 // TODO: Complete this function
 // Check if a user is an admin
-// function isAdmin(user: User): boolean { }
+function isAdmin(user: User): boolean {
+	return user.role === "admin";
+}
 
 // ============= Test your interfaces =============
 
@@ -127,23 +165,23 @@ console.log("=== Challenge 2 - Test Data with Interfaces ===\n");
 
 // TODO: Uncomment and test your functions
 
-// const foundUser = findUserByUsername(users, 'alice_admin');
-// if (foundUser) {
-//   console.log(`Found: ${foundUser.username} (${foundUser.email})`);
-//   if (foundUser.age) {
-//     console.log(`Age: ${foundUser.age}`);
-//   }
-// }
+const foundUser = findUserByUsername(users, "alice_admin");
+if (foundUser) {
+	console.log(`Found: ${foundUser.username} (${foundUser.email})`);
+	if (foundUser.age) {
+		console.log(`Age: ${foundUser.age}`);
+	}
+}
 
-// const activeUsers = users.filter(user => user.isActive);
-// console.log(`\nActive Users: ${activeUsers.length}`);
+const activeUsers = users.filter((user) => user.isActive);
+console.log(`\nActive Users: ${activeUsers.length}`);
 
-// const productNames = getProductNames(products);
-// console.log(`\nProduct Names: ${productNames.join(', ')}`);
+const productNames = getProductNames(products);
+console.log(`\nProduct Names: ${productNames.join(", ")}`);
 
-// users.forEach(user => {
-//   console.log(`${user.username}: ${isAdmin(user) ? 'Admin' : 'Not Admin'}`);
-// });
+users.forEach((user) => {
+	console.log(`${user.username}: ${isAdmin(user) ? "Admin" : "Not Admin"}`);
+});
 
 console.log("\n✅ Challenge 2 Complete!\n");
 
@@ -176,18 +214,35 @@ console.log("\n✅ Challenge 2 Complete!\n");
 // Development = 'Development'
 // Staging = 'Staging'
 // Production = 'Production'
+enum Environment {
+	Development = "Development",
+	Staging = "Staging",
+	Production = "Production",
+}
 
 // TODO: Create enum UserRole with values:
 // Admin = 'Admin'
 // User = 'User'
 // Guest = 'Guest'
 // Moderator = 'Moderator'
+enum UserRole {
+	Admin = "Admin",
+	User = "User",
+	Guest = "Guest",
+	Moderator = "Moderator",
+}
 
 // TODO: Create enum TestStatus with values:
 // Passed = 'Passed'
 // Failed = 'Failed'
 // Skipped = 'Skipped'
 // Pending = 'Pending'
+enum TestStatus {
+	Passed = "Passed",
+	Failed = "Failed",
+	Skipped = "Skipped",
+	Pending = "Pending",
+}
 
 // ============= TODO: Create type aliases =============
 
@@ -195,36 +250,80 @@ console.log("\n✅ Challenge 2 Complete!\n");
 // - name: string
 // - status: TestStatus
 // - duration: number
+type TestResult = {
+	name: string;
+	status: TestStatus;
+	duration: number;
+};
 
 // TODO: Create literal union type BrowserType
+type BrowserType = "chromium" | "firefox" | "webkit";
 
 // TODO: Create type alias EnvConfig with properties:
 // - environment: Environment
 // - baseUrl: string
 // - timeout: number
 // - retries: number
+type EnvConfig = {
+	environment: Environment;
+	baseUrl: string;
+	timeout: number;
+	retries: number;
+};
 
 // ============= TODO: Create test data =============
 
 // TODO: Create array of EnvConfig objects for different environments
-// const configs: EnvConfig[] = [ ... ];
+const configs: EnvConfig[] = [
+	{
+		environment: Environment.Development,
+		baseUrl: "https://www.google.com",
+		timeout: 1000,
+		retries: 1,
+	},
+	{
+		environment: Environment.Staging,
+		baseUrl: "https://www.google.com",
+		timeout: 1000,
+		retries: 1,
+	},
+	{
+		environment: Environment.Production,
+		baseUrl: "https://www.google.com",
+		timeout: 1000,
+		retries: 1,
+	},
+];
 
 // TODO: Create array of TestResult objects
-// const testResults: TestResult[] = [ ... ];
+const testResults: TestResult[] = [
+	{ name: "Test 1", status: TestStatus.Passed, duration: 10 },
+	{ name: "Test 2", status: TestStatus.Failed, duration: 20 },
+	{ name: "Test 3", status: TestStatus.Skipped, duration: 5 },
+];
 
 // ============= TODO: Create typed functions =============
 
 // TODO: Get configuration for a specific environment
-// function getConfig(env: Environment): EnvConfig { ... }
+function getConfig(env: Environment): EnvConfig {
+	return configs.find((config) => config.environment === env) as EnvConfig;
+}
 
 // TODO: Check if a test passed
-// function isTestPassed(result: TestResult): boolean { ... }
+function isTestPassed(result: TestResult): boolean {
+	return result.status === TestStatus.Passed;
+}
 
 // TODO: Count tests by status
-// function countByStatus(results: TestResult[], status: TestStatus): number { ... }
+function countByStatus(results: TestResult[], status: TestStatus): number {
+	return results.filter((result) => result.status === status).length;
+}
 
 // TODO: Check if browser is supported
-// function isBrowserSupported(browser: BrowserType): boolean { ... }
+function isBrowserSupported(browser: BrowserType): boolean {
+	const supportedBrowsers: BrowserType[] = ["chromium", "firefox"];
+	return supportedBrowsers.includes(browser);
+}
 
 // ============= Test your types =============
 
@@ -232,19 +331,19 @@ console.log("=== Challenge 3 - Type Aliases and Enums ===\n");
 
 // TODO: Uncomment and test your implementation
 
-// console.log('Environments:');
-// configs.forEach(config => {
-//   console.log(`  ${config.environment}: ${config.baseUrl}`);
-// });
+console.log("Environments:");
+configs.forEach((config) => {
+	console.log(`  ${config.environment}: ${config.baseUrl}`);
+});
 
-// const passedCount = countByStatus(testResults, TestStatus.Passed);
-// const failedCount = countByStatus(testResults, TestStatus.Failed);
-// console.log(`\nTest Results: ${passedCount} passed, ${failedCount} failed`);
+const passedCount = countByStatus(testResults, TestStatus.Passed);
+const failedCount = countByStatus(testResults, TestStatus.Failed);
+console.log(`\nTest Results: ${passedCount} passed, ${failedCount} failed`);
 
-// const browsers: BrowserType[] = ['chromium', 'firefox', 'webkit'];
-// browsers.forEach(browser => {
-//   console.log(`${browser}: ${isBrowserSupported(browser) ? 'Supported' : 'Not Supported'}`);
-// });
+const browsers: BrowserType[] = ["chromium", "firefox", "webkit"];
+browsers.forEach((browser) => {
+	console.log(`${browser}: ${isBrowserSupported(browser) ? "Supported" : "Not Supported"}`);
+});
 
 console.log("\n✅ Challenge 3 Complete!\n");
 
@@ -284,6 +383,11 @@ console.log("\n✅ Challenge 3 Complete!\n");
 // - title: string
 // - url: string
 // - isLoaded: boolean
+interface PageInfo {
+	title: string;
+	url: string;
+	isLoaded: boolean;
+}
 
 // ============= TODO: Create BasePage class =============
 
@@ -294,6 +398,27 @@ console.log("\n✅ Challenge 3 Complete!\n");
 // - public getPageName(): string
 // - public getFullUrl(path: string = ''): string
 // - public log(message: string): void
+export class BasePage {
+	private pageName: string;
+	readonly baseUrl: string;
+
+	constructor(pageName: string, baseUrl: string) {
+		this.pageName = pageName;
+		this.baseUrl = baseUrl;
+	}
+
+	public getPageName(): string {
+		return this.pageName;
+	}
+
+	public getFullUrl(path: string = ""): string {
+		return `${this.baseUrl}${path}`;
+	}
+
+	public log(message: string): void {
+		console.log(`[${this.pageName}] ${message}`);
+	}
+}
 
 // ============= TODO: Create LoginPage class =============
 
@@ -303,6 +428,33 @@ console.log("\n✅ Challenge 3 Complete!\n");
 // - public getLoginUrl(): string (use getFullUrl("/login") method from parent class)
 // - public setCredentials(username: string, password: string): void
 // - public getPageInfo(): PageInfo which returns an object that follows PageInfo interface
+export class LoginPage extends BasePage {
+	private credentials = {
+		username: "",
+		password: "",
+	};
+	constructor(baseUrl: string) {
+		super("Login Page", baseUrl);
+	}
+
+	public getLoginUrl(): string {
+		return this.getFullUrl("/login");
+	}
+
+	public setCredentials(username: string, password: string): void {
+		this.credentials.username = username;
+		this.credentials.password = password;
+		this.log(`Credentials set for user: ${username}`);
+	}
+
+	public getPageInfo(): PageInfo {
+		return {
+			title: this.getPageName(),
+			url: this.getLoginUrl(),
+			isLoaded: true,
+		};
+	}
+}
 
 // ============= TODO: Create TestPage class =============
 
@@ -311,21 +463,37 @@ console.log("\n✅ Challenge 3 Complete!\n");
 // - constructor to set all properties
 // - public isReady(): boolean method
 
+class TestPage implements PageInfo {
+	title: string;
+	url: string;
+	isLoaded: boolean;
+
+	constructor(title: string, url: string, isLoaded: boolean) {
+		this.title = title;
+		this.url = url;
+		this.isLoaded = isLoaded;
+	}
+
+	public isReady(): boolean {
+		return this.isLoaded;
+	}
+}
+
 // ============= Test your classes =============
 
 console.log("=== Challenge 4 - TypeScript Classes ===\n");
 
 // TODO: Uncomment and test your implementation
 
-// const loginPage = new LoginPage('https://demo.app.com');
-// console.log(`Created: ${loginPage.getPageName()}`);
-// console.log(`URL: ${loginPage.getLoginUrl()}`);
+const loginPage = new LoginPage('https://demo.app.com');
+console.log(`Created: ${loginPage.getPageName()}`);
+console.log(`URL: ${loginPage.getLoginUrl()}`);
 
-// loginPage.setCredentials('testuser', 'password123');
-// const pageInfo = loginPage.getPageInfo();
-// console.log(`Page Info:`, pageInfo);
+loginPage.setCredentials('testuser', 'password123');
+const pageInfo = loginPage.getPageInfo();
+console.log(`Page Info:`, pageInfo);
 
-// const testPage = new TestPage('Test Page', '/test', true);
-// console.log(`Test Page Ready: ${testPage.isReady()}`);
+const testPage = new TestPage('Test Page', '/test', true);
+console.log(`Test Page Ready: ${testPage.isReady()}`);
 
 console.log("\n✅ Challenge 4 Complete!\n");
