@@ -36,10 +36,8 @@ const testUser: { name: string; email: string; age: number; isActive: boolean } 
 
 // TODO: Add parameter types and return type annotation
 // This function should accept two numbers and return a number
-function calculateTimeout(baseTimeout: number, multiplier: number) {
-	let result: number;
-	result = baseTimeout * multiplier;
-	return result;
+function calculateTimeout(baseTimeout: number, multiplier: number): number {
+	return baseTimeout * multiplier;
 }
 
 // ============= TODO: Create array of typed objects =============
@@ -126,7 +124,7 @@ interface Product {
 
 // TODO: Create an array of at least 3 User objects
 let users: User[] = [
-	{ id: 1, username: "Ana", email: "ana@gmail.com", role: "admin", age: 30, isActive: true },
+	{ id: 1, username: "alice_admin", email: "ana@gmail.com", role: "admin", age: 30, isActive: true },
 	{ id: 2, username: "George", email: "george@gmail.com", role: "user", age: 31, isActive: true },
 	{ id: 2, username: "Mihaela", email: "mihaela@gmail.com", role: "user", isActive: false },
 ];
@@ -172,6 +170,8 @@ if (foundUser) {
 		console.log(`Age: ${foundUser.age}`);
 	}
 }
+
+console.log(foundUser);
 
 const activeUsers = users.filter((user) => user.isActive);
 console.log(`\nActive Users: ${activeUsers.length}`);
@@ -485,15 +485,15 @@ console.log("=== Challenge 4 - TypeScript Classes ===\n");
 
 // TODO: Uncomment and test your implementation
 
-const loginPage = new LoginPage('https://demo.app.com');
+const loginPage = new LoginPage("https://demo.app.com");
 console.log(`Created: ${loginPage.getPageName()}`);
 console.log(`URL: ${loginPage.getLoginUrl()}`);
 
-loginPage.setCredentials('testuser', 'password123');
+loginPage.setCredentials("testuser", "password123");
 const pageInfo = loginPage.getPageInfo();
 console.log(`Page Info:`, pageInfo);
 
-const testPage = new TestPage('Test Page', '/test', true);
+const testPage = new TestPage("Test Page", "/test", true);
 console.log(`Test Page Ready: ${testPage.isReady()}`);
 
 console.log("\n✅ Challenge 4 Complete!\n");
