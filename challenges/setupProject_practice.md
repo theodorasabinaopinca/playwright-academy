@@ -69,7 +69,7 @@ setup('register user for Contact List tests', async ({ page }) => {
 
 **File:** `tests/contact-list-app.spec.ts`
 
-**TODO:** Copy the `"Contact List Application Tests"` describe block from `tests/locatorsActionsAssertions_practice.spec.ts`.
+**TODO:** Copy the `"Contact List Application Tests"` describe block from `tests/locatorsActionsAssertions_practice.spec.ts` (only that describe block).
 
 #### Changes Needed
 * **REMOVE** the `test.beforeAll` hook (registration is now in the setup project).
