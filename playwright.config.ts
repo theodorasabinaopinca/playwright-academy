@@ -50,11 +50,6 @@ export default defineConfig({
 		{
 			name: "setup",
 			testMatch: /.*\.setup\.ts/,
-			dependencies: ["registration"],
-		},
-		{
-			name: "registration",
-			testMatch: /.*\.registration\.ts/,
 		},
 		{
 			name: "chromium",
