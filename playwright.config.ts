@@ -24,6 +24,8 @@ export default defineConfig({
 	/* Reporter to use. See https://playwright.dev/docs/test-reporters */
 	reporter: "html",
 	/* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+	//globalSetup: "./global-setup.ts",
+
 	use: {
 		/* Base URL to use in actions like `await page.goto('')`. */
 		baseURL: process.env.BASE_URL || "http://google.com",
@@ -31,7 +33,7 @@ export default defineConfig({
 		headless: false,
 
 		/* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-		trace: "off",
+		trace: "on",
 
 		screenshot: "only-on-failure",
 		/* Screenshot automatically when test fails */
@@ -40,13 +42,27 @@ export default defineConfig({
 		/* Keep video only if test fails (saves disk space) */
 
 		testIdAttribute: "data-testid",
+		//storageState: "auth.json",
 	},
 
 	/* Configure projects for major browsers */
 	projects: [
 		{
+			name: "setup",
+			testMatch: /.*\.setup\.ts/,
+			dependencies: ["registration"],
+		},
+		{
+			name: "registration",
+			testMatch: /.*\.registration\.ts/,
+		},
+		{
 			name: "chromium",
-			use: { ...devices["Desktop Chrome"] },
+			use: {
+				...devices["Desktop Chrome"],
+				storageState: "auth-project.json",
+			},
+			dependencies: ["setup"], // ← Waits for setup to complete
 		},
 
 		// {
