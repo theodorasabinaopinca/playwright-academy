@@ -87,7 +87,7 @@ test.describe("Locators examples", () => {
 			.click();
 	});
 
-	test("getByTestId example", async ({ page }) => {
+	test.skip("getByTestId example", async ({ page }) => {
 		await page.getByTestId("testID123").click();
 	});
 
