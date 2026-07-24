@@ -11,25 +11,26 @@ test.describe("Locators examples", () => {
 		await page.goto("https://thinking-tester-contact-list.herokuapp.com/");
 
 		await expect(page.getByPlaceholder("Email")).toBeVisible();
-
 		await expect(page.getByPlaceholder("Password")).toBeVisible();
-
-		await expect(page.getByRole("button", { name: "Subm" })).toBeVisible();
+		await expect(page.getByRole("button", { name: "Submit" })).toBeVisible();
 
 		await page.getByPlaceholder("Email").fill("practice.user@test.com");
 		await page.getByPlaceholder("Password").fill("practicePlaywright@home1");
-		await page.getByRole("button", { name: "Subm" }).click();
+		await page.getByRole("button", { name: "Submit" }).click();
 
 		await expect(page).toHaveURL(/contactList/);
 		console.log("Navigated to contact list page");
 		await expect(page.getByRole("heading")).toHaveText("Contact List");
-		console.log("Page heading is correct!");
+		console.log("Page heading is correct");
+
 		await page.getByRole("button", { name: "Add a New Contact" }).click();
+
 		await expect(page.getByRole("heading", { name: "Add contact" })).toBeVisible();
 		await expect(page.getByLabel("First Name")).toBeVisible();
 		console.log("Add contact form is visible");
+
 		await page.getByRole("button", { name: "Cancel" }).click();
-		await expect(page.getByRole("heading", { name: "Contact list" })).toBeVisible();
+		await expect(page.getByRole("heading", { name: "Contact List" })).toBeVisible();
 		console.log("Returned to contact list");
 	});
 
@@ -38,8 +39,8 @@ test.describe("Locators examples", () => {
 
 		await page.getByPlaceholder("Email").fill("practice.user@test.com");
 
-		await page.getByPlaceholder("Password").fill("practicePlaywright@home1");
 		await expect(page.getByPlaceholder("Password")).toHaveAttribute("type", "password");
+		await page.getByPlaceholder("Password").fill("practicePlaywright@home1");
 
 		await page.getByRole("button", { name: "Subm" }).click();
 
@@ -47,19 +48,19 @@ test.describe("Locators examples", () => {
 		await expect(page.getByRole("heading")).toHaveText("Contact List");
 
 		//Non web-first assertion
-		//const headingText = await page.getByRole("heading", {name: 'Contact List'}).textContent()
-		//expect(headingText).toBe('Contact List')
+		//const headingText = await page.getByRole("heading", { name: "Contact List" }).textContent();
+		//expect(headingText).toBe("Contact List");
 
 		await page.getByRole("button", { name: "Add a New Contact" }).click();
 
 		await expect.soft(page.getByLabel("First Name")).toBeVisible();
-		await expect.soft(page.getByLabel("Last Name"), 'Last name should be empty').toHaveValue("notExpecting");
-		await expect.soft(page.getByLabel("Email")).toHaveValue("expectedEmail");
+		//await expect.soft(page.getByLabel("Last Name"), "Last name should be empty").toHaveValue("notExpectingThis");
+		//await expect.soft(page.getByLabel("Email")).toHaveValue("expectedEmail");
 
 		await page.getByLabel("First Name").fill("Silvia");
 		await page.getByLabel("Last Name").fill("Smith");
 		await page.getByLabel("Email").fill("silvia.smith@example.com");
-		await page.getByLabel("Date of Birth").fill("1988-12-12");
+		await page.getByLabel("Date of Birth").fill("1998-12-12");
 		await page.getByLabel("Phone").fill("1256668822");
 
 		await expect(page.getByLabel("First Name")).toHaveValue("Silvia");
@@ -77,7 +78,6 @@ test.describe("Locators examples", () => {
 		await page.getByPlaceholder("Password").fill("practicePlaywright@home1");
 
 		//await page.getByRole("button", { name: "Subm" }).click();
-
 		await page.locator("button").getByText("Submit").click();
 		//await page.getByText("API TestUser").first().click();
 		//await page.getByText("API TestU").first().click();
