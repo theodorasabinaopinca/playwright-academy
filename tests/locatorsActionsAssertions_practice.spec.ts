@@ -45,21 +45,30 @@ test.describe("Contact List Application Tests", () => {
 		const page = await context.newPage();
 
 		// TODO: Navigate to the application home page
-		// Hint: await page.goto('https://thinking-tester-contact-list.herokuapp.com/')
+		await page.goto("https://thinking-tester-contact-list.herokuapp.com/");
 
 		// TODO: Click the "Sign up" button
+		await page.getByRole("button", { name: "Sign up" }).click();
 
 		// TODO: Wait for the signup form to load
+		await page.waitForURL("**/addUser");
+		await expect(page.getByPlaceholder("First Name")).toBeVisible();
 
 		// TODO: Fill out the registration form with:
 		//   - First Name: "Test"
 		//   - Last Name: "User"
 		//   - Email: testEmail (the variable)
 		//   - Password: testPassword (the variable)
+		await page.getByRole("textbox", { name: "First Name" }).fill("Test");
+		await page.getByRole("textbox", { name: "Last Name" }).fill("User");
+		await page.getByRole("textbox", { name: "Email" }).fill(testEmail);
+		await page.getByRole("textbox", { name: "Password" }).fill(testPassword);
 
 		// TODO: Click Submit button
+		await page.getByRole("button", { name: "Submit" }).click();
 
 		// TODO: Wait for successful registration for a set timeout of 10000
+		await page.waitForURL("**/contactList", { timeout: 10000 });
 
 		console.log("✅ Test user registered successfully!\n");
 
@@ -98,29 +107,41 @@ test.describe("Contact List Application Tests", () => {
 
 		// Step 1: Verify form is ready BEFORE filling
 		// TODO: Verify Email input is visible
+		await expect(page.getByRole("textbox", { name: "Email" })).toBeVisible();
 
 		// TODO: Verify Password input is enabled
+		await expect(page.getByRole("textbox", { name: "Email" })).toBeVisible();
 
 		// TODO: Verify Submit button contains text "Submit"
+		await expect(page.getByRole("button", { name: "Submit" })).toContainText("Submit");
 
 		// TODO: Verify error message is NOT visible
+		await expect(page.getByText("Incorrect username or password")).not.toBeVisible();
 
 		// Step 2: Fill login credentials
 		// TODO: Fill Email with testEmail
+		await page.getByRole("textbox", { name: "Email" }).fill(testEmail);
 
 		// TODO: Fill Password with testPassword
+		await page.getByRole("textbox", { name: "Password" }).fill(testPassword);
 
 		// Step 3: Submit
 		// TODO: Click Submit button
+		await page.getByRole("button", { name: "Submit" }).click();
 
 		// Step 4: Verify successful login
 		// TODO: Assert URL contains "contactList"
+		await expect(page.getByRole("button", { name: "Logout" })).toBeVisible();
+		expect(page.url()).toContain("contactList");
+		await page.waitForURL("**/contactList");
 
 		// TODO: Assert heading contains "Contact List"
+		await expect(page.getByRole("heading", { name: "Contact List" })).toContainText("Contact List");
 
 		// TODO: Assert Logout button is visible
 
 		// TODO: Assert error message is still NOT visible
+		await expect(page.getByText("Incorrect username or password")).not.toBeVisible();
 
 		console.log("✅ Challenge 1 completed successfully!");
 	});
@@ -163,6 +184,19 @@ test.describe("Contact List Application Tests", () => {
 		//   - stateProvince: "MA"
 		//   - postalCode: "02101"
 		//   - country: "USA"
+		const contactData = {
+			firstName: "Alice",
+			lastName: "Smith",
+			birthdate: "1985-03-20",
+			email: "alice.smith@example.com",
+			phone: "5559871234",
+			street1: "456 Oak Ave",
+			street2: "Suite 200",
+			city: "Boston",
+			stateProvince: "MA",
+			postalCode: "02101",
+			country: "USA",
+		};
 
 		// Login
 		await page.goto("https://thinking-tester-contact-list.herokuapp.com/");
@@ -171,35 +205,60 @@ test.describe("Contact List Application Tests", () => {
 		await page.getByRole("button", { name: "Submit" }).click();
 
 		// TODO: Click "Add a New Contact" button
+		await page.getByRole("button", { name: "Add a New Contact" }).click();
 
 		// Verify form fields are empty (at least 3)
 		// TODO: Verify First Name field is empty (toBeEmpty)
+		await expect(page.getByRole("textbox", { name: "First Name" })).toBeEmpty();
 
 		// TODO: Verify Last Name field is empty
+		await expect(page.getByRole("textbox", { name: "Last Name" })).toBeEmpty();
 
 		// TODO: Verify Email field is empty
+		await expect(page.getByPlaceholder("Email")).toBeEmpty();
 
 		// TODO: Fill all 11 contact fields using contactData object
+		await page.getByRole("textbox", { name: "First Name" }).fill(contactData.firstName);
+		await page.getByRole("textbox", { name: "Last Name" }).fill(contactData.lastName);
+		await page.getByLabel("Date of Birth").fill(contactData.birthdate);
+		await page.getByPlaceholder("Email").fill(contactData.email);
+		await page.getByLabel("Phone").fill(contactData.phone);
+		await page.getByPlaceholder("Address 1").fill(contactData.street1);
+		await page.getByPlaceholder("Address 2").fill(contactData.street2);
+		await page.getByPlaceholder("City").fill(contactData.city);
+		await page.getByPlaceholder("State or Province").fill(contactData.stateProvince);
+		await page.getByPlaceholder("Postal Code").fill(contactData.postalCode);
+		await page.getByPlaceholder("Country").fill(contactData.country);
 
 		// Verify filled values (at least 3 fields)
 		// TODO: Assert First Name has value contactData.firstName
+		await expect(page.getByRole("textbox", { name: "First Name" })).toHaveValue(contactData.firstName);
 
 		// TODO: Assert Email has value contactData.email
+		await expect(page.getByPlaceholder("Email")).toHaveValue(contactData.email);
 
 		// TODO: Assert Phone has value contactData.phone
+		await expect(page.getByLabel("Phone")).toHaveValue(contactData.phone);
 
 		// Verify input attributes
 		// TODO: Assert Submit button has type="submit"
+		await expect(page.getByRole("button", { name: "Submit" })).toHaveAttribute("type", "submit");
 
 		// TODO: Click Submit button
+		await page.getByRole("button", { name: "Submit" }).click();
 
 		// TODO: Verify URL returns to contact list
 
 		console.log("Validating Contact List Page...");
+		await page.waitForURL("**/contactList");
 
 		// TODO: Verify contact is visible using template literal for dynamic name
+		await expect(
+			page.getByRole("cell").filter({ hasText: `${contactData.firstName}  ${contactData.lastName}` })
+		).toBeVisible();
 
 		// TODO: Verify all table headers are visible
+		await expect(page.getByRole("table").locator("thead")).toBeVisible();
 
 		console.log("✅ Challenge 2 completed successfully!");
 	});
