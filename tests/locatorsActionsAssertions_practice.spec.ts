@@ -296,28 +296,36 @@ test.describe("Contact List Application Tests", () => {
 
 		// Step 1: Navigate to login page
 		// TODO: Navigate to the application home page
+		await page.goto("https://thinking-tester-contact-list.herokuapp.com/");
 
 		// Step 2: Fill login form with INVALID credentials
 		console.log("Attempting login with invalid credentials...");
 
 		// TODO: Fill Email with "invalid@example.com"
+		await page.getByPlaceholder("Email").fill("invalid@example.com")
 
 		// TODO: Fill Password with "WrongPassword123"
+		await page.getByPlaceholder("Password").fill("WrongPassword123")
 
 		// TODO: Click Submit button
+		await page.getByRole("button", { name: "Submit" }).click();
 
 		// Step 3: Verify error message is visible
 		// TODO: Assert error message element is visible
+		await page.locator("#error").isVisible();
 
 		// Step 4: Verify error message contains expected text
 		// TODO: Assert error message contains "Incorrect username or password"
+		await expect(page.locator("#error")).toContainText("Incorrect username or password")
 		// Hint: Use toContainText for partial text matching
 
 		// Step 5: Verify URL did NOT change (still on login page)
 		// TODO: Assert URL is still the home page
+		await expect(page).not.toHaveURL(/\/contactList/);
 
 		// Step 6: Verify we are NOT logged in
 		// TODO: Assert 'Logout' button is NOT visible
+		await expect(page.getByRole("button", {name: "Logout"})).not.toBeVisible();
 
 		console.log("✅ Challenge 3 completed successfully!");
 	});
