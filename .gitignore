@@ -2,3 +2,8 @@ node_modules/
 test-results/
 playwright-report/
 .env
+
+# Auth files with tokens/session data
+auth-api.json
+auth-project.json
+auth.json
