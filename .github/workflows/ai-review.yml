@@ -1,5 +1,7 @@
+# AI reviews test files for bad practices and suggests improvements
 name: AI Code Review
 
+# When to run: PRs that modify test or page files
 on:
   pull_request:
     types: [opened, reopened]
@@ -7,9 +9,10 @@ on:
       - 'tests/**/*.spec.ts'
       - 'pages/**/*.ts'
 
+# Permissions needed to comment on PRs
 permissions:
-  pull-requests: write
-  contents: read
+  pull-requests: write  # Post comments
+  contents: read        # Read code
 
 jobs:
   ai-review:
@@ -17,21 +20,25 @@ jobs:
     timeout-minutes: 5
 
     steps:
+      # Get the code with full history to compare changes
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Get full history for git diff
+          fetch-depth: 0
 
+      # Install Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
+      # Install project dependencies + AI SDK packages
       - name: Install dependencies
         run: |
           npm ci
           npm install @anthropic-ai/sdk @octokit/rest
 
+      # Find which test files changed in this PR
       - name: Get changed test files
         id: changed-files
         run: |
@@ -43,6 +50,8 @@ jobs:
           echo "Changed test files:"
           echo "$changed_files"
 
+      # Send changed files to Claude for review
+      # Only runs if test files were changed
       - name: Run AI code review
         if: steps.changed-files.outputs.files != ''
         env:
@@ -54,6 +63,7 @@ jobs:
           CHANGED_FILES: ${{ steps.changed-files.outputs.files }}
         run: node scripts/ai-review.js
 
+      # Post a message if no test files were changed
       - name: Comment on PR
         if: steps.changed-files.outputs.files == ''
         uses: actions/github-script@v7

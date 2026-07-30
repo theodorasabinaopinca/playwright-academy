@@ -1,16 +1,19 @@
-import Anthropic from "@anthropic-ai/sdk";
-import { Octokit } from "@octokit/rest";
-import fs from "fs";
+// Import required libraries
+import Anthropic from "@anthropic-ai/sdk"; // Claude AI SDK
+import { Octokit } from "@octokit/rest"; // GitHub API client
+import fs from "fs"; // File system operations
 
+// Initialize Claude AI client with API key
 const anthropic = new Anthropic({
 	apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
+// Initialize GitHub API client with access token
 const octokit = new Octokit({
 	auth: process.env.GITHUB_TOKEN,
 });
 
-// We update the prompt to force Claude to respond in valid JSON so we can extract line data
+// Instructions for Claude to review code and return structured JSON
 const reviewCriteria = `
 You are a senior QA automation engineer reviewing Playwright TypeScript test code.
 Analyze the provided code file and return a JSON object containing code review findings.
@@ -37,9 +40,11 @@ Your response MUST be a single, valid JSON object with no markdown wrapping, mat
 }
 `;
 
+// Send code to Claude for review and return structured feedback
 async function reviewCode(filePath, fileContent) {
 	console.log(`Reviewing ${filePath}...`);
 
+	// Call Claude API with the code to review
 	const message = await anthropic.messages.create({
 		model: "claude-sonnet-4-6",
 		max_tokens: 3000,
@@ -54,20 +59,20 @@ async function reviewCode(filePath, fileContent) {
 	const rawText = message.content[0].text.trim();
 
 	try {
-		// Clean out markdown code blocks (e.g., ```json ... ```) if Claude included them
+		// Remove markdown code block formatting if Claude wrapped the JSON
 		const sanitizedText = rawText
 			.replace(/^```json\s*/i, "") // Removes leading ```json
 			.replace(/^```\s*/, "") // Removes leading ``` if plain
 			.replace(/```$/, "") // Removes trailing ```
 			.trim();
 
-		// Parse the cleaned JSON string
+		// Parse and return the JSON response
 		return JSON.parse(sanitizedText);
 	} catch (e) {
 		console.error("Failed to parse Claude's response as JSON.");
 		console.error("Raw output from model was:", rawText);
 
-		// Switch fallback to BLOCK if parsing fails, so broken responses don't bypass your security gate!
+		// If parsing fails, block the PR to prevent issues from being missed
 		return {
 			assessment: "BLOCK",
 			summary:
@@ -77,7 +82,9 @@ async function reviewCode(filePath, fileContent) {
 	}
 }
 
+// Main function: orchestrates the entire review process
 async function main() {
+	// Get environment variables from GitHub Actions
 	const changedFiles = process.env.CHANGED_FILES.split("\n").filter((f) =>
 		f.trim(),
 	);
@@ -90,7 +97,7 @@ async function main() {
 		return;
 	}
 
-	// Get the latest commit SHA to attach inline comments to
+	// Fetch PR details to get the latest commit SHA
 	const { data: pr } = await octokit.rest.pulls.get({
 		owner,
 		repo,
@@ -98,36 +105,41 @@ async function main() {
 	});
 	const commitId = pr.head.sha;
 
+	// Initialize review data
 	let inlineComments = [];
 	let shouldBlockMerge = false;
 	let summaryReport = "### 🤖 AI Quality Gate Assessment Results\n\n";
 
+	// Review each changed test file
 	for (const file of changedFiles) {
 		if (!fs.existsSync(file)) continue;
 
+		// Read file content and send to Claude for review
 		const content = fs.readFileSync(file, "utf-8");
 		const reviewResult = await reviewCode(file, content);
 
+		// Add file summary to report
 		summaryReport += `#### File: ${file} (${reviewResult.assessment})\n${reviewResult.summary}\n\n`;
 
+		// Flag PR for blocking if any file has critical issues
 		if (reviewResult.assessment === "BLOCK") {
 			shouldBlockMerge = true;
 		}
 
-		// Map each issue returned by Claude into a true GitHub inline comment object
+		// Convert Claude's issues into GitHub inline comments
 		if (reviewResult.issues && reviewResult.issues.length > 0) {
 			reviewResult.issues.forEach((issue) => {
 				inlineComments.push({
 					path: file,
 					line: issue.line,
-					side: "RIGHT", // Specifies commenting on the modified version of the file
+					side: "RIGHT", // Comment on the new version of the file
 					body: `### ❌ ${issue.title}\n**Problem:** ${issue.problem}\n\n**Suggested Fix:**\n\`\`\`typescript\n${issue.fix}\n\`\`\`\n\n**Why:** ${issue.why}`,
 				});
 			});
 		}
 	}
 
-	// Submit ONE formal PR Review containing all inline comments simultaneously
+	// Post review to GitHub PR (either as "Request Changes" or "Comment")
 	await octokit.rest.pulls.createReview({
 		owner,
 		repo,
@@ -140,12 +152,14 @@ async function main() {
 
 	console.log(`Review posted with ${inlineComments.length} inline comment(s).`);
 
+	// Fail the workflow if critical issues were found
 	if (shouldBlockMerge) {
 		console.error("❌ Critical violations found. Blocking pipeline execution.");
 		process.exit(1);
 	}
 }
 
+// Run the main function and handle any errors
 main().catch((error) => {
 	console.error("Error during execution:", error);
 	process.exit(1);
