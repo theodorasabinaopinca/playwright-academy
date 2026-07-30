@@ -10,5 +10,5 @@ test("navigate to docs", async ({ page }) => {
 	await page.waitForTimeout(3000);
 
 	// Bad: Non-retrying assertion for UI state
-	expect(page.url()).toBe("https://playwright.dev/docs/introo");
+	expect(page.url()).toBe("https://playwright.dev/docs/intro");
 });
