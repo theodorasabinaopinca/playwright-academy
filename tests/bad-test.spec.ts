@@ -1,14 +1,14 @@
 import { test, expect } from "@playwright/test";
 
-test("login test", async ({ page }) => {
-	await page.goto("https://example.com/login");
+test("navigate to docs", async ({ page }) => {
+	await page.goto("https://playwright.dev");
 
 	// Bad: CSS selector instead of getByRole
-	await page.click("#loginBtn");
+	await page.click('a[href="/docs/intro"]');
 
 	// Bad: Hardcoded wait
 	await page.waitForTimeout(3000);
 
 	// Bad: Non-retrying assertion for UI state
-	expect(page.url()).toBe("https://example.com/dashboard");
+	expect(page.url()).toBe("https://playwright.dev/docs/intro");
 });
