@@ -7,3 +7,5 @@ playwright-report/
 auth-api.json
 auth-project.json
 auth.json
+
+.playwright-mcp/
