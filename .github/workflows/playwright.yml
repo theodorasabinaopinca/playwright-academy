@@ -3,7 +3,7 @@ name: Playwright Tests
 # When to trigger this workflow
 on:
   push:
-    branches: [main, develop, ai-review]
+    branches: [main, develop, test/ai-review]
   pull_request:
     branches: [main, develop]
 
