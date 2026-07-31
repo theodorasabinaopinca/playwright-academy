@@ -25,7 +25,7 @@
 
 // TODO: Add inline object type annotation
 // Should have: name (string), email (string), age (number), isActive (boolean)
-const testUser = {
+const testUser: { name: string; email: string; age: number; isActive: boolean } = {
 	name: "John Doe",
 	email: "john@test.com",
 	age: 30,
@@ -36,15 +36,15 @@ const testUser = {
 
 // TODO: Add parameter types and return type annotation
 // This function should accept two numbers and return a number
-// function calculateTimeout(baseTimeout, multiplier) {
-// 	return baseTimeout * multiplier;
-// }
+function calculateTimeout(baseTimeout: number, multiplier: number): number {
+	return baseTimeout * multiplier;
+}
 
 // ============= TODO: Create array of typed objects =============
 
 // TODO: Add type annotation for array of product objects
 // Each product should have: id (number), name (string), price (number), inStock (boolean)
-const products = [
+const products: { id: number; name: string; price: number; inStock: boolean }[] = [
 	{ id: 1, name: "Laptop", price: 999.99, inStock: true },
 	{ id: 2, name: "Mouse", price: 29.99, inStock: true },
 	{ id: 3, name: "Keyboard", price: 79.99, inStock: false },
@@ -56,9 +56,18 @@ const products = [
 // Then fix them or comment them back out
 
 // const wrongType: string = 123; // Type error!
+//fix
+const wrongType: string = "123";
+const wrongType2: number = 123;
 // browsers.push(42); // Type error!
+//fix
+browsers1.push("Chrome");
 // testUser.age = "thirty"; // Type error!
+//fix
+testUser.age = 30;
 // const result: number = calculateTimeout("100", 2); // Type error!
+//fix
+const result: number = calculateTimeout(100, 2);
 
 /**
  * ================================================
